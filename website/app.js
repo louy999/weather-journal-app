@@ -1,20 +1,26 @@
 /* Global Variables */
 const server = "http://127.0.0.1:8000";
-
+const key = document.querySelector("input#key").value;
 // Create a new date instance dynamically with JS
 
 let d = new Date();
-// let newDate = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();<----- here get date now now (It is impossible for there to be an error)
-//let newDate = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`; //<--------------------------- And with that, I'll add 1 here
-let newDate = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`;
+let newDate = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 
 // Personal API Key for OpenWeatherMap API
 const baseURL = "https://api.openweathermap.org/data/2.5/weather?zip=";
-const apiKey = ",&appid=9776258a1caf1f6a48391dbc974130ac&units=imperial";
+const apiKey = `,&appid=${key}&units=imperial`;
 
 // Event listener to add function to existing HTML DOM element
 document.querySelector("#generate").addEventListener("click", () => {
   const zip = document.querySelector("#zip").value;
+  if (key == "") {
+    alert("please index own key");
+  }
+  // alert when input zip empty
+  if (zip == "") {
+    alert("please index zip code");
+  }
+
   const feeling = document.querySelector("#feelings").value;
   /* Function to GET Web API Data*/
   const getDataWeather = async (zip) => {
@@ -39,11 +45,10 @@ document.querySelector("#generate").addEventListener("click", () => {
         description,
         feeling,
       };
-      postData(server + "/add", sendData);
+      postData(server + "/add", sendData).then(getData());
       // Function to GET Project Data
     }
   });
-  getData();
 });
 /* Function to POST data */
 const postData = async (url = "", sendData = {}) => {
