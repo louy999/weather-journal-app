@@ -1,19 +1,22 @@
 /* Global Variables */
 const server = "http://127.0.0.1:8000";
-const key = document.querySelector("input#key").value;
+const key = document.querySelector("input#key");
 // Create a new date instance dynamically with JS
 
 let d = new Date();
 let newDate = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 
-// Personal API Key for OpenWeatherMap API
-const baseURL = "https://api.openweathermap.org/data/2.5/weather?zip=";
-const apiKey = `,&appid=${key}&units=imperial`;
-
 // Event listener to add function to existing HTML DOM element
 document.querySelector("#generate").addEventListener("click", () => {
+  document.querySelector(".myInput").value = "";
+  document.querySelector("#date").innerHTML = "";
+  document.querySelector("#temp").innerHTML = "";
+  document.querySelector("#content").innerHTML = "";
+  // Personal API Key for OpenWeatherMap API
+  const baseURL = "https://api.openweathermap.org/data/2.5/weather?zip=";
+  const apiKey = `,&appid=${key.value}&units=imperial`;
   const zip = document.querySelector("#zip").value;
-  if (key == "") {
+  if (key.value == "") {
     alert("please index own key");
   }
   // alert when input zip empty
@@ -45,7 +48,7 @@ document.querySelector("#generate").addEventListener("click", () => {
         description,
         feeling,
       };
-      postData(server + "/add", sendData).then(getData());
+      postData(server + "/add", sendData).then(() => getData());
       // Function to GET Project Data
     }
   });
